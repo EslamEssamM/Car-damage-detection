@@ -38,14 +38,7 @@ const tools = [
     color: "from-yellow-500 to-yellow-700",
     hoverColor: "from-yellow-600 to-yellow-800",
   },
-  {
-    title: "شركات التأمين",
-    description: "تصفح قائمة شركات التأمين المعتمدة",
-    icon: <Shield className="h-12 w-12" />,
-    link: "/warranty",
-    color: "from-purple-500 to-purple-700",
-    hoverColor: "from-purple-600 to-purple-800",
-  },
+  
 ];
 
 export default function IndexPage() {
