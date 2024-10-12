@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as WarrantyImport } from './routes/warranty'
 import { Route as ReportImport } from './routes/report'
+import { Route as DetectionImport } from './routes/detection'
 import { Route as CarsImport } from './routes/cars'
 import { Route as IndexImport } from './routes/index'
 
@@ -25,6 +26,11 @@ const WarrantyRoute = WarrantyImport.update({
 
 const ReportRoute = ReportImport.update({
   path: '/report',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DetectionRoute = DetectionImport.update({
+  path: '/detection',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -56,6 +62,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CarsImport
       parentRoute: typeof rootRoute
     }
+    '/detection': {
+      id: '/detection'
+      path: '/detection'
+      fullPath: '/detection'
+      preLoaderRoute: typeof DetectionImport
+      parentRoute: typeof rootRoute
+    }
     '/report': {
       id: '/report'
       path: '/report'
@@ -78,6 +91,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cars': typeof CarsRoute
+  '/detection': typeof DetectionRoute
   '/report': typeof ReportRoute
   '/warranty': typeof WarrantyRoute
 }
@@ -85,6 +99,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cars': typeof CarsRoute
+  '/detection': typeof DetectionRoute
   '/report': typeof ReportRoute
   '/warranty': typeof WarrantyRoute
 }
@@ -93,22 +108,24 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/cars': typeof CarsRoute
+  '/detection': typeof DetectionRoute
   '/report': typeof ReportRoute
   '/warranty': typeof WarrantyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cars' | '/report' | '/warranty'
+  fullPaths: '/' | '/cars' | '/detection' | '/report' | '/warranty'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cars' | '/report' | '/warranty'
-  id: '__root__' | '/' | '/cars' | '/report' | '/warranty'
+  to: '/' | '/cars' | '/detection' | '/report' | '/warranty'
+  id: '__root__' | '/' | '/cars' | '/detection' | '/report' | '/warranty'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CarsRoute: typeof CarsRoute
+  DetectionRoute: typeof DetectionRoute
   ReportRoute: typeof ReportRoute
   WarrantyRoute: typeof WarrantyRoute
 }
@@ -116,6 +133,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CarsRoute: CarsRoute,
+  DetectionRoute: DetectionRoute,
   ReportRoute: ReportRoute,
   WarrantyRoute: WarrantyRoute,
 }
@@ -134,6 +152,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/cars",
+        "/detection",
         "/report",
         "/warranty"
       ]
@@ -143,6 +162,9 @@ export const routeTree = rootRoute
     },
     "/cars": {
       "filePath": "cars.tsx"
+    },
+    "/detection": {
+      "filePath": "detection.tsx"
     },
     "/report": {
       "filePath": "report.tsx"

@@ -10,7 +10,7 @@ export function Navbar() {
           Car Damage Detector
         </Link>
         <div className="flex items-center space-x-6">
-          <Link to="/" className="hover:text-gray-300">
+          <Link to="/detection" className="hover:text-gray-300">
             اكتشاف الأضرار
           </Link>
           <Link to="/report" className="hover:text-gray-300">
