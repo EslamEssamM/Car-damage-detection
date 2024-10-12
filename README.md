@@ -52,7 +52,7 @@ The **Car Damage Detection** project provides a simple way for users to upload a
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/EslamEssamM/Car-damage-detection.git
+   git clone https://huggingface.co/spaces/eslamESssamM/car-damage-api
    cd Car-damage-detection
    ```
 
@@ -82,7 +82,8 @@ The **Car Damage Detection** project provides a simple way for users to upload a
 1. **Navigate to the Frontend Directory**
 
    ```bash
-   cd frontend
+   git clone https://github.com/EslamEssamM/Car-damage-detection.git
+   cd Car-damage-detection
    ```
 
 2. **Install Frontend Dependencies**
@@ -126,7 +127,7 @@ The **Car Damage Detection** project provides a simple way for users to upload a
       },
       {
         "label": "انبعاج",
-        "score": 0.70
+        "score": 0.7
       }
     ]
   }
@@ -171,14 +172,31 @@ Car-damage-detection/
 
 ## 📸 **Screenshots**
 
-### **Home Page**
+### **Detection Page**
+
+### _Home_
+
 ![Home Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/home.png)
 
-### **Detection Page**
+### _Sample_
+
 ![Detection Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/detection.png)
 
-### **Results Page**
+### _Results_
+
 ![Results Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/results.png)
+
+### **Report Page**
+
+![Report Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/reporting.png)
+
+### **Car Info Page**
+
+![Car Info Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/car-info.png)
+
+### **Warranty Page**
+
+![Warranty Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/warranty.png)
 
 ## 🤝 **Contributing**
 
