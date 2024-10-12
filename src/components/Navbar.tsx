@@ -1,5 +1,4 @@
 // src/components/Navbar.tsx
-import React from "react";
 import { Link } from "@tanstack/react-router";
 import { ModeToggle } from "@/components/shared/ModeToggle";
 
