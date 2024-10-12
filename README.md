@@ -55,7 +55,7 @@ The **Car Damage Detection** project provides a simple way for users to upload a
 
    ```bash
    git clone https://huggingface.co/spaces/eslamESssamM/car-damage-api
-   cd Car-damage-detection
+   cd Car-damage-api
    ```
 
 2. **Create a Virtual Environment**
@@ -182,7 +182,7 @@ Car-damage-detection/
 
 ### _Sample_
 
-![Detection Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/detection.png)
+![Detection Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/sample.png)
 
 ### _Results_
 
