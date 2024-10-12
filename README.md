@@ -2,17 +2,6 @@
 
 Welcome to the **Car Damage Detection** project! This application is built to detect damages on cars using a pre-trained model. The aim is to make damage assessment easier, more efficient, and accessible to everyone using AI.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.10-blue.svg" alt="Python Version">
-  <img src="https://img.shields.io/badge/FastAPI-0.103.1-green.svg" alt="FastAPI">
-  <img src="https://img.shields.io/badge/React-18.2.0-blue.svg" alt="React">
-  <img src="https://img.shields.io/badge/License-MIT-lightgrey.svg" alt="License">
-</p>
-
-<p align="center">
-  <img src="https://github.com/EslamEssamM/Car-damage-detection/blob/main/preview.gif" alt="App Preview" width="600">
-</p>
-
 ## 📋 **Table of Contents**
 
 - [About the Project](#about-the-project)
@@ -24,6 +13,7 @@ Welcome to the **Car Damage Detection** project! This application is built to de
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
 - [Project Structure](#project-structure)
+- [Screenshots](#screenshots)
 - [Contributing](#contributing)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
@@ -42,8 +32,8 @@ The **Car Damage Detection** project provides a simple way for users to upload a
 
 ### 🛠 **Tech Stack**
 
-- **Backend**: FastAPI, Uvicorn, Python, Transformers
-- **Frontend**: React, TypeScript, Vite, Tailwind CSS
+- **Backend**: FastAPI, Uvicorn, Python, Transformers, Gradio
+- **Frontend**: React, TypeScript, Vite, Tailwind CSS, ShadCN UI
 - **AI Model**: Hugging Face Transformers, Gradio integration for image analysis
 - **Deployment**: Hugging Face Spaces (for Gradio UI)
 
@@ -81,6 +71,8 @@ The **Car Damage Detection** project provides a simple way for users to upload a
 
 4. **Run the Backend Server**
 
+   The backend is hosted on Hugging Face Spaces using Gradio. To run locally:
+
    ```bash
    uvicorn app:app --reload
    ```
@@ -111,7 +103,7 @@ The **Car Damage Detection** project provides a simple way for users to upload a
 
 4. **Open in Browser**
 
-   Visit `http://localhost:3000` to view the application.
+   Visit `http://localhost:5173` to view the application.
 
 ## 🎉 **Usage**
 
@@ -125,7 +117,6 @@ The **Car Damage Detection** project provides a simple way for users to upload a
 
 - **Description**: Accepts an image file and returns detected damages.
 - **Response**:
-  
   ```json
   {
     "predictions": [
@@ -151,15 +142,43 @@ Car-damage-detection/
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
+│   │   │   ├── shared/
+│   │   │   │   ├── ThemeProvider.tsx
+│   │   │   │   └── ModeToggle.tsx
 │   │   │   ├── ui/
-│   │   │   └── DetectionPage.tsx
-│   │   ├── App.tsx
-│   │   ├── main.tsx
-│   │   └── index.css
+│   │   │   │   └── Navbar.tsx
+│   │   ├── pages/
+│   │   │   ├── CarsPage.tsx
+│   │   │   ├── DetectionPage.tsx
+│   │   │   ├── ReportPage.tsx
+│   │   │   └── WarrantyPage.tsx
+│   │   ├── routes/
+│   │   │   ├── __root__.tsx
+│   │   │   ├── cars.tsx
+│   │   │   ├── index.tsx
+│   │   │   ├── report.tsx
+│   │   │   └── warranty.tsx
+│   │   ├── utils/
+│   │   │   ├── css.ts
+│   │   │   ├── index.css
+│   │   │   ├── main.tsx
+│   │   │   ├── routeTree.gen.ts
+│   │   │   └── vite-env.d.ts
 │   ├── package.json
 │   └── ...
 └── README.md
 ```
+
+## 📸 **Screenshots**
+
+### **Home Page**
+![Home Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/home.png)
+
+### **Detection Page**
+![Detection Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/detection.png)
+
+### **Results Page**
+![Results Page](https://github.com/EslamEssamM/Car-damage-detection/blob/main/screenshots/results.png)
 
 ## 🤝 **Contributing**
 
@@ -188,15 +207,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For any inquiries or feedback, please reach out:
 
 - **Name**: Eslam Essam
-- **Email**: [eslamessamm@gmail.com](mailto:eslamessamm@gmail.com)
+- **Email**: [essamdrc@gmail.com](mailto:essamdrc@gmail.com)
 - **GitHub**: [EslamEssamM](https://github.com/EslamEssamM)
 
 ---
 
 Made with ❤️ by [Eslam Essam](https://github.com/EslamEssamM)
-
-<p align="center">
-  <a href="https://github.com/EslamEssamM/Car-damage-detection/issues">Report Bug</a> |
-  <a href="https://github.com/EslamEssamM/Car-damage-detection/issues">Request Feature</a>
-</p>
-
