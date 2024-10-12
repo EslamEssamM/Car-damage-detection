@@ -2,6 +2,8 @@
 
 Welcome to the **Car Damage Detection** project! This application is built to detect damages on cars using a pre-trained model. The aim is to make damage assessment easier, more efficient, and accessible to everyone using AI.
 
+[**Live Site**](https://car-damage-detection.vercel.app/)
+
 ## 📋 **Table of Contents**
 
 - [About the Project](#about-the-project)
