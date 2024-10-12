@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/Button";
-import { Car, FileText, Shield, ChevronRight } from "lucide-react";
+import { Car, FileText, ChevronRight } from "lucide-react";
 
 const tools = [
   {
