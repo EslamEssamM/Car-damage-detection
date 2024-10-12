@@ -18,7 +18,7 @@ const tools = [
     description:
       "قم بتحميل صورة لسيارتك واكتشف الأضرار باستخدام الذكاء الاصطناعي",
     icon: <Car className="h-12 w-12" />,
-    link: "/",
+    link: "/detection",
     color: "from-blue-500 to-blue-700",
     hoverColor: "from-blue-600 to-blue-800",
   },
@@ -116,7 +116,7 @@ export default function IndexPage() {
           ))}
         </div>
 
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -128,7 +128,7 @@ export default function IndexPage() {
               920000000
             </span>
           </p>
-        </motion.div>
+        </motion.div> */}
       </main>
     </div>
   );
