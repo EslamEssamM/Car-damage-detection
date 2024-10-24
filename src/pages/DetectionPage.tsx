@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import axios from "axios";
 
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/input";
@@ -17,10 +18,13 @@ import {
   Car,
   Camera,
   FileImage,
+  Truck as Hood,
+  Truck,
+  DoorClosed,
+  Wrench,
+  Lightbulb,
+  Glasses,
 } from "lucide-react";
-
-// Import the Gradio client library
-import { Client } from "@gradio/client";
 
 export function DetectionPage() {
   const [image, setImage] = useState<File | null>(null);
@@ -29,6 +33,7 @@ export function DetectionPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const [overallSeverity, setOverallSeverity] = useState<string>("منخفضة");
+  const [selectedPart, setSelectedPart] = useState<string | null>(null);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -48,46 +53,27 @@ export function DetectionPage() {
     setPredictions([]);
 
     try {
-      // Connect to your Hugging Face Gradio Space
-      const client = await Client.connect("eslamESssamM/car-damage-api");
+      const reader = new FileReader();
+      reader.readAsDataURL(image);
+      reader.onloadend = async () => {
+        const base64Image = reader.result?.toString().split(",")[1];
 
-      // Send the image to the Gradio API for prediction
-      const result = await client.predict("/predict", {
-        // The key should match the parameter name in your Gradio function
-        image: image,
-      });
+        const response = await axios({
+          method: "POST",
+          url: "https://detect.roboflow.com/car-damage-detection-t0g92/3",
+          params: {
+            api_key: "ql52VbdZHWH97UDcgrnA",
+          },
+          data: base64Image,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        });
 
-      interface Prediction {
-        label: string;
-        score: number;
-      }
-      if (!result.data) {
-        setError("لم يتم العثور على أضرار في الصورة. يرجى المحاولة مرة أخرى.");
-        return;
-      }
-      console.log(result.data);
-      const ddada = result.data as any[];
-      const preds = result.data ? (ddada[0] as Prediction[]) : [];
-      console.log(preds);
-      if (preds.length === 0) {
-        setError("لم يتم العثور على أضرار في الصورة. يرجى المحاولة مرة أخرى.");
-      }
-      console.log(preds[0]);
-      const data = preds.map((p) => {
-        console.log(p);
-        console.log(p.label);
-        console.log(p.score);
-        return {
-          label: p.label,
-          score: p.score,
-          confidence: p.score,
-        };
-      });
-      console.log(data);
-
-      // The result is in result.data
-      setPredictions(preds);
-      updateOverallSeverity(data);
+        const predictions = response.data.predictions;
+        setPredictions(predictions);
+        updateOverallSeverity(predictions);
+      };
     } catch (error) {
       console.error("خطأ في تحميل الصورة", error);
       setError("حدث خطأ أثناء معالجة الصورة. يرجى المحاولة مرة أخرى.");
@@ -97,27 +83,39 @@ export function DetectionPage() {
   };
 
   const updateOverallSeverity = (predictions: any[]) => {
-    const maxScore = Math.max(
-      ...predictions.map((p) => p.confidence ?? p.score)
-    );
-    if (maxScore > 0.8) {
+    const maxConfidence = Math.max(...predictions.map((p) => p.confidence));
+    if (maxConfidence > 0.8) {
       setOverallSeverity("عالية");
-    } else if (maxScore > 0.5) {
+    } else if (maxConfidence > 0.5) {
       setOverallSeverity("متوسطة");
     } else {
       setOverallSeverity("منخفضة");
     }
   };
 
-  const insights: { [key: string]: string } = {
-    انبعاج: "تم اكتشاف انبعاج. استشر متخصصًا للحصول على خيارات الإصلاح.",
-    خدش: "تم اكتشاف خدش. يمكن إزالة الخدوش الصغيرة في كثير من الأحيان.",
-    تصدع: "تم اكتشاف تصدع. قد يتطلب الأمر اهتمامًا فوريًا.",
-    "تحطم زجاج": "تم اكتشاف زجاج محطم. استبدل الزجاج فورًا للسلامة.",
-    "مصباح مكسور": "تم اكتشاف مصباح مكسور. استبدله لضمان الرؤية.",
-    "إطار مفرغ":
-      "تم اكتشاف إطار مفرغ. قم بإصلاح أو استبدال الإطار قبل القيادة.",
-  };
+  const carParts = [
+    { name: "Bonnet", icon: Hood, translation: "غطاء المحرك" },
+    { name: "Bumper", icon: Truck, translation: "المصد" },
+    { name: "Dickey", icon: Truck, translation: "صندوق السيارة" },
+    { name: "Door", icon: DoorClosed, translation: "الباب" },
+    { name: "Fender", icon: Wrench, translation: "الرفرف" },
+    { name: "Light", icon: Lightbulb, translation: "المصباح" },
+    { name: "Windshield", icon: Glasses, translation: "الزجاج الأمامي" },
+  ];
+
+  const carPartTranslations = Object.fromEntries(
+    carParts.map((part) => [part.name, part.translation])
+  );
+
+  const insights = {
+    Bonnet: "تم اكتشاف ضرر في غطاء المحرك. قد يتطلب إصلاح أو استبدال.",
+    Bumper: "تم اكتشاف ضرر في المصد. يجب فحص سلامة المصد.",
+    Dickey: "تم اكتشاف ضرر في صندوق السيارة. تحقق من آلية الفتح والإغلاق.",
+    Door: "تم اكتشاف ضرر في الباب. تحقق من آلية فتح وإغلاق الباب.",
+    Fender: "تم اكتشاف ضرر في الرفرف. قد يتطلب إصلاح أو استبدال.",
+    Light: "تم اكتشاف ضرر في المصباح. يجب التأكد من عمل الإضاءة بشكل صحيح.",
+    Windshield: "تم اكتشاف ضرر في الزجاج الأمامي. يجب معالجة أي تشققات فوراً.",
+  } as { [key: string]: string };
 
   const severityColor: { [key: string]: string } = {
     منخفضة: "bg-green-100 text-green-800",
@@ -244,13 +242,17 @@ export function DetectionPage() {
 
         <div className="mt-8">
           <Tabs defaultValue="preview" className="w-full">
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="preview">
                 <FileImage className="ml-2 h-4 w-4" />
                 معاينة الصورة
               </TabsTrigger>
-              <TabsTrigger value="results">
+              <TabsTrigger value="parts">
                 <Car className="ml-2 h-4 w-4" />
+                أجزاء السيارة
+              </TabsTrigger>
+              <TabsTrigger value="results">
+                <AlertTriangle className="ml-2 h-4 w-4" />
                 نتائج الكشف
               </TabsTrigger>
             </TabsList>
@@ -266,6 +268,40 @@ export function DetectionPage() {
                   ) : (
                     <div className="flex items-center justify-center h-64 bg-gray-100 rounded-lg">
                       <p className="text-gray-500">لم يتم تحميل صورة</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="parts">
+              <Card>
+                <CardHeader>
+                  <CardTitle>أجزاء السيارة</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                    {carParts.map((part) => (
+                      <Button
+                        key={part.name}
+                        variant={
+                          selectedPart === part.name ? "default" : "outline"
+                        }
+                        className="h-24 flex flex-col items-center justify-center text-center"
+                        onClick={() => setSelectedPart(part.name)}
+                      >
+                        <part.icon className="h-8 w-8 mb-2" />
+                        <span className="text-sm">{part.translation}</span>
+                      </Button>
+                    ))}
+                  </div>
+                  {selectedPart && (
+                    <div className="mt-4">
+                      <h3 className="text-lg font-semibold mb-2">
+                        {carPartTranslations[selectedPart]}
+                      </h3>
+                      <p className="text-sm text-gray-600">
+                        {insights[selectedPart]}
+                      </p>
                     </div>
                   )}
                 </CardContent>
@@ -294,19 +330,26 @@ export function DetectionPage() {
                           <div key={index} className="space-y-2">
                             <div className="flex justify-between items-center">
                               <span className="font-medium">
-                                {prediction.label}
+                                {carPartTranslations[prediction.class] ||
+                                  prediction.class}
                               </span>
                               <span className="text-sm font-medium">
-                                {(prediction.score * 100).toFixed(2)}%
+                                {(prediction.confidence * 100).toFixed(2)}%
                               </span>
                             </div>
                             <Progress
-                              value={prediction.score * 100}
+                              value={prediction.confidence * 100}
                               className="h-2"
                             />
                             <p className="text-sm text-gray-600">
-                              {insights[index]}
+                              {insights[prediction.class]}
                             </p>
+                            <div className="text-sm text-gray-500">
+                              الموقع: X: {prediction.x}, Y: {prediction.y}
+                              <br />
+                              الأبعاد: العرض: {prediction.width}, الارتفاع:{" "}
+                              {prediction.height}
+                            </div>
                             <Separator className="my-2" />
                           </div>
                         ))}
