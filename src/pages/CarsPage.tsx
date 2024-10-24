@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Car, Activity, Fuel, User, CreditCard, Calendar } from "lucide-react";
+import { User, CreditCard, Calendar } from "lucide-react";
 
 interface CarData {
   id: string;
@@ -112,10 +112,6 @@ export default function CarShowcasePage() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setNewCar({ ...newCar, [name]: value });
-  };
-
-  const handleSelectChange = (name: string, value: string) => {
     setNewCar({ ...newCar, [name]: value });
   };
 
