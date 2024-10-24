@@ -20,35 +20,47 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Car, Activity, Fuel } from "lucide-react";
+import { Car, Activity, Fuel, User, CreditCard, Calendar } from "lucide-react";
 
 interface CarData {
   id: string;
-  name: string;
-  model: string;
-  horsepower: number;
-  description: string;
-  category: string;
-  fuelEfficiency: number;
-  vehicleNumber: string;
-  condition: string;
+  ownerName: string;
+  ownerIdNumber: string;
+  driverName: string;
+  driverIdNumber: string;
+  vehicleType: string;
+  vehicleModel: string;
+  chassisNumber: string;
+  serialNumber: string;
+  licensePlate: string;
+  vehicleWeight: number;
+  inspectionExpiryDate: string;
+  licenseExpiryDate: string;
+  insuranceExpiryDate: string;
+  driverLicenseExpiryDate: string;
 }
 
 export default function CarShowcasePage() {
   const [cars, setCars] = useState<CarData[]>([]);
   const [filteredCars, setFilteredCars] = useState<CarData[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedVehicleType, setSelectedVehicleType] = useState("");
   const [newCar, setNewCar] = useState<CarData>({
     id: "",
-    name: "",
-    model: "",
-    horsepower: 0,
-    description: "",
-    category: "ممتازة",
-    fuelEfficiency: 0,
-    vehicleNumber: "",
-    condition: "",
+    ownerName: "",
+    ownerIdNumber: "",
+    driverName: "",
+    driverIdNumber: "",
+    vehicleType: "",
+    vehicleModel: "",
+    chassisNumber: "",
+    serialNumber: "",
+    licensePlate: "",
+    vehicleWeight: 0,
+    inspectionExpiryDate: "",
+    licenseExpiryDate: "",
+    insuranceExpiryDate: "",
+    driverLicenseExpiryDate: "",
   });
 
   useEffect(() => {
@@ -61,22 +73,13 @@ export default function CarShowcasePage() {
   useEffect(() => {
     const filtered = cars.filter(
       (car) =>
-        car.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-        (selectedCategory === "" || car.category === selectedCategory)
+        car.ownerName?.toLowerCase().includes(searchTerm?.toLowerCase()) &&
+        (selectedVehicleType === "" || car.vehicleType === selectedVehicleType)
     );
     setFilteredCars(filtered);
-  }, [searchTerm, selectedCategory, cars]);
+  }, [searchTerm, selectedVehicleType, cars]);
 
-  const categories = Array.from(
-    new Set(
-      cars.map((car) => {
-        if (car.category !== "") {
-          return car.category;
-        }
-        return "ممتازة";
-      })
-    )
-  );
+  const vehicleTypes = Array.from(new Set(cars.map((car) => car.vehicleType)));
 
   const handleAddCar = () => {
     const updatedCars = [...cars, { ...newCar, id: Date.now().toString() }];
@@ -84,14 +87,20 @@ export default function CarShowcasePage() {
     localStorage.setItem("userCars", JSON.stringify(updatedCars));
     setNewCar({
       id: "",
-      name: "",
-      model: "",
-      horsepower: 0,
-      description: "",
-      category: "ممتازة",
-      fuelEfficiency: 0,
-      vehicleNumber: "",
-      condition: "",
+      ownerName: "",
+      ownerIdNumber: "",
+      driverName: "",
+      driverIdNumber: "",
+      vehicleType: "",
+      vehicleModel: "",
+      chassisNumber: "",
+      serialNumber: "",
+      licensePlate: "",
+      vehicleWeight: 0,
+      inspectionExpiryDate: "",
+      licenseExpiryDate: "",
+      insuranceExpiryDate: "",
+      driverLicenseExpiryDate: "",
     });
   };
 
@@ -118,116 +127,172 @@ export default function CarShowcasePage() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-gray-900 sm:text-5xl md:text-6xl">
-            معرض سياراتي
+            سجل المركبات
           </h1>
           <p className="mt-3 max-w-md mx-auto text-base text-gray-500 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            أضف وعرض سياراتك الخاصة في معرضك الشخصي
+            أضف وعرض معلومات المركبات في سجلك الشخصي
           </p>
         </div>
 
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>إضافة سيارة جديدة</CardTitle>
+            <CardTitle>إضافة مركبة جديدة</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="name">اسم السيارة</Label>
+                <Label htmlFor="ownerName">اسم المالك</Label>
                 <Input
-                  id="name"
-                  name="name"
-                  value={newCar.name}
+                  id="ownerName"
+                  name="ownerName"
+                  value={newCar.ownerName}
                   onChange={handleInputChange}
-                  placeholder="أدخل اسم السيارة"
+                  placeholder="أدخل اسم المالك"
                 />
               </div>
               <div>
-                <Label htmlFor="model">الموديل</Label>
+                <Label htmlFor="ownerIdNumber">رقم هوية المالك</Label>
                 <Input
-                  id="model"
-                  name="model"
-                  value={newCar.model}
+                  id="ownerIdNumber"
+                  name="ownerIdNumber"
+                  value={newCar.ownerIdNumber}
                   onChange={handleInputChange}
-                  placeholder="أدخل موديل السيارة"
+                  placeholder="أدخل رقم هوية المالك"
                 />
               </div>
               <div>
-                <Label htmlFor="horsepower">القوة الحصانية</Label>
+                <Label htmlFor="driverName">اسم السائق الفعلي</Label>
                 <Input
-                  id="horsepower"
-                  name="horsepower"
+                  id="driverName"
+                  name="driverName"
+                  value={newCar.driverName}
+                  onChange={handleInputChange}
+                  placeholder="أدخل اسم السائق الفعلي"
+                />
+              </div>
+              <div>
+                <Label htmlFor="driverIdNumber">رقم هوية السائق</Label>
+                <Input
+                  id="driverIdNumber"
+                  name="driverIdNumber"
+                  value={newCar.driverIdNumber}
+                  onChange={handleInputChange}
+                  placeholder="أدخل رقم هوية السائق"
+                />
+              </div>
+              <div>
+                <Label htmlFor="vehicleType">نوع المركبة</Label>
+                <Input
+                  id="vehicleType"
+                  name="vehicleType"
+                  value={newCar.vehicleType}
+                  onChange={handleInputChange}
+                  placeholder="أدخل نوع المركبة"
+                />
+              </div>
+              <div>
+                <Label htmlFor="vehicleModel">موديل المركبة</Label>
+                <Input
+                  id="vehicleModel"
+                  name="vehicleModel"
+                  value={newCar.vehicleModel}
+                  onChange={handleInputChange}
+                  placeholder="أدخل موديل المركبة"
+                />
+              </div>
+              <div>
+                <Label htmlFor="chassisNumber">رقم الهيكل</Label>
+                <Input
+                  id="chassisNumber"
+                  name="chassisNumber"
+                  value={newCar.chassisNumber}
+                  onChange={handleInputChange}
+                  placeholder="أدخل رقم الهيكل"
+                />
+              </div>
+              <div>
+                <Label htmlFor="serialNumber">الرقم التسلسلي للمركبة</Label>
+                <Input
+                  id="serialNumber"
+                  name="serialNumber"
+                  value={newCar.serialNumber}
+                  onChange={handleInputChange}
+                  placeholder="أدخل الرقم التسلسلي للمركبة"
+                />
+              </div>
+              <div>
+                <Label htmlFor="licensePlate">لوحة المركبة</Label>
+                <Input
+                  id="licensePlate"
+                  name="licensePlate"
+                  value={newCar.licensePlate}
+                  onChange={handleInputChange}
+                  placeholder="أدخل لوحة المركبة"
+                />
+              </div>
+              <div>
+                <Label htmlFor="vehicleWeight">وزن المركبة</Label>
+                <Input
+                  id="vehicleWeight"
+                  name="vehicleWeight"
                   type="number"
-                  value={newCar.horsepower}
+                  value={newCar.vehicleWeight}
                   onChange={handleInputChange}
-                  placeholder="أدخل القوة الحصانية"
+                  placeholder="أدخل وزن المركبة"
                 />
               </div>
               <div>
-                <Label htmlFor="category">الفئة</Label>
-                <Input
-                  id="category"
-                  name="category"
-                  value={newCar.category}
-                  onChange={handleInputChange}
-                  placeholder="أدخل فئة السيارة"
-                />
-              </div>
-              <div>
-                <Label htmlFor="fuelEfficiency">
-                  استهلاك الوقود (لتر/100كم)
+                <Label htmlFor="inspectionExpiryDate">
+                  تاريخ انتهاء فحص المركبة
                 </Label>
                 <Input
-                  id="fuelEfficiency"
-                  name="fuelEfficiency"
-                  type="number"
-                  value={newCar.fuelEfficiency}
+                  id="inspectionExpiryDate"
+                  name="inspectionExpiryDate"
+                  type="date"
+                  value={newCar.inspectionExpiryDate}
                   onChange={handleInputChange}
-                  placeholder="أدخل استهلاك الوقود"
                 />
               </div>
               <div>
-                <Label htmlFor="vehicleNumber">رقم المركبة</Label>
+                <Label htmlFor="licenseExpiryDate">
+                  تاريخ انتهاء رخصة السير
+                </Label>
                 <Input
-                  id="vehicleNumber"
-                  name="vehicleNumber"
-                  value={newCar.vehicleNumber}
+                  id="licenseExpiryDate"
+                  name="licenseExpiryDate"
+                  type="date"
+                  value={newCar.licenseExpiryDate}
                   onChange={handleInputChange}
-                  placeholder="أدخل رقم المركبة"
                 />
               </div>
               <div>
-                <Label htmlFor="condition">حالة المركبة</Label>
-                <Select
-                  name="condition"
-                  onValueChange={(value) =>
-                    handleSelectChange("condition", value)
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="اختر حالة المركبة" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ممتازة">ممتازة</SelectItem>
-                    <SelectItem value="جيدة">جيدة</SelectItem>
-                    <SelectItem value="متوسطة">متوسطة</SelectItem>
-                    <SelectItem value="سيئة">سيئة</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="md:col-span-2">
-                <Label htmlFor="description">الوصف</Label>
+                <Label htmlFor="insuranceExpiryDate">
+                  تاريخ انتهاء تأمين المركبة
+                </Label>
                 <Input
-                  id="description"
-                  name="description"
-                  value={newCar.description}
+                  id="insuranceExpiryDate"
+                  name="insuranceExpiryDate"
+                  type="date"
+                  value={newCar.insuranceExpiryDate}
                   onChange={handleInputChange}
-                  placeholder="أدخل وصف السيارة"
+                />
+              </div>
+              <div>
+                <Label htmlFor="driverLicenseExpiryDate">
+                  تاريخ انتهاء رخصة القيادة للسائق الفعلي
+                </Label>
+                <Input
+                  id="driverLicenseExpiryDate"
+                  name="driverLicenseExpiryDate"
+                  type="date"
+                  value={newCar.driverLicenseExpiryDate}
+                  onChange={handleInputChange}
                 />
               </div>
             </div>
           </CardContent>
           <CardFooter>
-            <Button onClick={handleAddCar}>إضافة السيارة</Button>
+            <Button onClick={handleAddCar}>إضافة المركبة</Button>
           </CardFooter>
         </Card>
 
@@ -238,32 +303,26 @@ export default function CarShowcasePage() {
                 <Label htmlFor="search">البحث</Label>
                 <Input
                   id="search"
-                  placeholder="ابحث عن سيارة..."
+                  placeholder="ابحث عن مركبة..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                 />
               </div>
               <div>
-                <Label htmlFor="category">الفئة</Label>
+                <Label htmlFor="vehicleType">نوع المركبة</Label>
                 <Select
-                  value={selectedCategory}
-                  onValueChange={setSelectedCategory}
+                  value={selectedVehicleType}
+                  onValueChange={setSelectedVehicleType}
                 >
-                  <SelectTrigger id="category">
-                    <SelectValue placeholder="اختر الفئة" />
+                  <SelectTrigger id="vehicleType">
+                    <SelectValue placeholder="اختر نوع المركبة" />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
+                    {vehicleTypes.map((type) => (
+                      <SelectItem key={type} value={type}>
+                        {type}
                       </SelectItem>
                     ))}
-                    <Button
-                      variant="ghost"
-                      onClick={() => setSelectedCategory("")}
-                    >
-                      كل الفئات
-                    </Button>
                   </SelectContent>
                 </Select>
               </div>
@@ -284,37 +343,63 @@ export default function CarShowcasePage() {
                   <CardContent className="pt-4">
                     <div className="flex items-center justify-between mb-2">
                       <CardTitle className="text-xl font-bold">
-                        {car.name}
+                        {car.vehicleType} - {car.vehicleModel}
                       </CardTitle>
-                      <Badge variant="outline">{car.category}</Badge>
+                      <Badge variant="outline">{car.licensePlate}</Badge>
                     </div>
-                    <p className="text-gray-600 text-sm mb-4">
-                      {car.description}
-                    </p>
                     <Separator className="my-4" />
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div className="flex items-center">
-                        <Car className="mr-2 h-4 w-4 text-gray-400" />
-                        <span>{car.model}</span>
+                        <User className="mr-2 h-4 w-4 text-gray-400" />
+                        <span>المالك: {car.ownerName}</span>
                       </div>
                       <div className="flex items-center">
-                        <Activity className="mr-2 h-4 w-4 text-gray-400" />
-                        <span>{car.horsepower} حصان</span>
+                        <CreditCard className="mr-2 h-4 w-4 text-gray-400" />
+                        <span>هوية المالك: {car.ownerIdNumber}</span>
                       </div>
                       <div className="flex items-center">
-                        <Fuel className="mr-2 h-4 w-4 text-gray-400" />
-                        <span>{car.fuelEfficiency} لتر/100كم</span>
+                        <User className="mr-2 h-4 w-4 text-gray-400" />
+                        <span>السائق: {car.driverName}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <CreditCard className="mr-2 h-4 w-4 text-gray-400" />
+                        <span>هوية السائق: {car.driverIdNumber}</span>
                       </div>
                     </div>
                     <Separator className="my-4" />
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <span className="font-semibold">رقم المركبة:</span>{" "}
-                        {car.vehicleNumber}
+                        <span className="font-semibold">رقم الهيكل:</span>{" "}
+                        {car.chassisNumber}
                       </div>
                       <div>
-                        <span className="font-semibold">حالة المركبة:</span>{" "}
-                        {car.condition}
+                        <span className="font-semibold">الرقم التسلسلي:</span>{" "}
+                        {car.serialNumber}
+                      </div>
+                      <div>
+                        <span className="font-semibold">الوزن:</span>{" "}
+                        {car.vehicleWeight} كغ
+                      </div>
+                    </div>
+                    <Separator className="my-4" />
+                    <div className="grid grid-cols-2 gap-4 text-sm">
+                      <div className="flex items-center">
+                        <Calendar className="mr-2 h-4 w-4 text-gray-400" />
+                        <span>انتهاء الفحص: {car.inspectionExpiryDate}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Calendar className="mr-2 h-4 w-4 text-gray-400" />
+                        <span>انتهاء الرخصة: {car.licenseExpiryDate}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Calendar className="mr-2 h-4 w-4 text-gray-400" />
+                        <span>انتهاء التأمين: {car.insuranceExpiryDate}</span>
+                      </div>
+                      <div className="flex items-center">
+                        <Calendar className="mr-2 h-4 w-4 text-gray-400" />
+                        <span>
+                          انتهاء رخصة السائق: {car.driverLicenseExpiryDate}
+                        </span>
                       </div>
                     </div>
                     <Button
@@ -322,7 +407,7 @@ export default function CarShowcasePage() {
                       onClick={() => handleDeleteCar(car.id)}
                       className="mt-4"
                     >
-                      حذف السيارة
+                      حذف المركبة
                     </Button>
                   </CardContent>
                 </Card>
