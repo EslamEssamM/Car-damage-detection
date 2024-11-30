@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
+// import { RouterProvider } from "@tanstack/react-router";
+import { createRouter } from "@tanstack/react-router";
 
 //theme provider
 import { ThemeProvider } from "@/components/shared/ThemeProvider";
