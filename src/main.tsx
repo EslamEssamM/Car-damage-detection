@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-// import { RouterProvider } from "@tanstack/react-router";
+import { RouterProvider } from "@tanstack/react-router";
 import { createRouter } from "@tanstack/react-router";
 
 //theme provider
@@ -29,8 +29,7 @@ if (!rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <h1>Service on hold الخدمة متوقفة</h1>
-        {/* <RouterProvider router={router} /> */}
+        <RouterProvider router={router} /> 
       </ThemeProvider>
     </StrictMode>
   );
