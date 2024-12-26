@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/Button";
-import { Car, FileText, ChevronRight } from "lucide-react";
+import { Car, FileText, ChevronRight, Camera } from "lucide-react";
 
 const tools = [
   {
@@ -38,7 +38,14 @@ const tools = [
     color: "from-yellow-500 to-yellow-700",
     hoverColor: "from-yellow-600 to-yellow-800",
   },
-  
+  {
+    title: "إضافة بلاغ مباشر",
+    description: "قم بإضافة صور وتفاصيل الحادث لتقديم بلاغ مباشر",
+    icon: <Camera className="h-12 w-12" />,
+    link: "/direct-report",
+    color: "from-red-500 to-red-700",
+    hoverColor: "from-red-600 to-red-800",
+  },
 ];
 
 export default function IndexPage() {
@@ -47,7 +54,6 @@ export default function IndexPage() {
       className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-900 dark:to-gray-800"
       dir="rtl"
     >
-      {/* <Navbar /> */}
       <main className="container mx-auto px-4 py-12">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -108,20 +114,6 @@ export default function IndexPage() {
             </motion.div>
           ))}
         </div>
-
-        {/* <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mt-16 text-center"
-        >
-          <p className="text-xl text-gray-600 dark:text-gray-300">
-            هل تحتاج إلى مساعدة؟ اتصل بنا على الرقم الموحد:{" "}
-            <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400">
-              920000000
-            </span>
-          </p>
-        </motion.div> */}
       </main>
     </div>
   );

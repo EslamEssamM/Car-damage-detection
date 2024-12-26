@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as WarrantyImport } from './routes/warranty'
 import { Route as ReportImport } from './routes/report'
+import { Route as DirectReportImport } from './routes/direct-report'
 import { Route as DetectionImport } from './routes/detection'
 import { Route as CarsImport } from './routes/cars'
 import { Route as IndexImport } from './routes/index'
@@ -26,6 +27,11 @@ const WarrantyRoute = WarrantyImport.update({
 
 const ReportRoute = ReportImport.update({
   path: '/report',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const DirectReportRoute = DirectReportImport.update({
+  path: '/direct-report',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -69,6 +75,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DetectionImport
       parentRoute: typeof rootRoute
     }
+    '/direct-report': {
+      id: '/direct-report'
+      path: '/direct-report'
+      fullPath: '/direct-report'
+      preLoaderRoute: typeof DirectReportImport
+      parentRoute: typeof rootRoute
+    }
     '/report': {
       id: '/report'
       path: '/report'
@@ -92,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cars': typeof CarsRoute
   '/detection': typeof DetectionRoute
+  '/direct-report': typeof DirectReportRoute
   '/report': typeof ReportRoute
   '/warranty': typeof WarrantyRoute
 }
@@ -100,6 +114,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cars': typeof CarsRoute
   '/detection': typeof DetectionRoute
+  '/direct-report': typeof DirectReportRoute
   '/report': typeof ReportRoute
   '/warranty': typeof WarrantyRoute
 }
@@ -109,16 +124,30 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/cars': typeof CarsRoute
   '/detection': typeof DetectionRoute
+  '/direct-report': typeof DirectReportRoute
   '/report': typeof ReportRoute
   '/warranty': typeof WarrantyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cars' | '/detection' | '/report' | '/warranty'
+  fullPaths:
+    | '/'
+    | '/cars'
+    | '/detection'
+    | '/direct-report'
+    | '/report'
+    | '/warranty'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cars' | '/detection' | '/report' | '/warranty'
-  id: '__root__' | '/' | '/cars' | '/detection' | '/report' | '/warranty'
+  to: '/' | '/cars' | '/detection' | '/direct-report' | '/report' | '/warranty'
+  id:
+    | '__root__'
+    | '/'
+    | '/cars'
+    | '/detection'
+    | '/direct-report'
+    | '/report'
+    | '/warranty'
   fileRoutesById: FileRoutesById
 }
 
@@ -126,6 +155,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CarsRoute: typeof CarsRoute
   DetectionRoute: typeof DetectionRoute
+  DirectReportRoute: typeof DirectReportRoute
   ReportRoute: typeof ReportRoute
   WarrantyRoute: typeof WarrantyRoute
 }
@@ -134,6 +164,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CarsRoute: CarsRoute,
   DetectionRoute: DetectionRoute,
+  DirectReportRoute: DirectReportRoute,
   ReportRoute: ReportRoute,
   WarrantyRoute: WarrantyRoute,
 }
@@ -153,6 +184,7 @@ export const routeTree = rootRoute
         "/",
         "/cars",
         "/detection",
+        "/direct-report",
         "/report",
         "/warranty"
       ]
@@ -165,6 +197,9 @@ export const routeTree = rootRoute
     },
     "/detection": {
       "filePath": "detection.tsx"
+    },
+    "/direct-report": {
+      "filePath": "direct-report.tsx"
     },
     "/report": {
       "filePath": "report.tsx"
